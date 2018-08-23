@@ -1,3 +1,14 @@
 # Restraints evaluation using symmetric cyclodextrin-cyclopentanol complex
 
-Here you will find the yaml files used to compute the binding affinity of symmetric cyclodextrin-cyplopentanol complex using several types of restraints : harmonic, orientational and flat bottom restraints. For flat bottom restraints, there are yaml files using a well radius of 5, 15, 20 and 35 Å.The mol2 files of symmetric α-cyclodextrin and cyclopentanol are in the subdirectory [`input`](input).
+Here you will find the yaml files used to compute the binding affinity of symmetric cyclodextrin-cyplopentanol complex using several types of restraints.
+
+## Manifest
+
+- [`harmonic.yaml`](harmonic.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex using harmonic restraints.
+- [`boresch.yaml`](boresch.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex using Boresch style restraints.
+- [`flatbottom_5.yaml`]( flatbottom_5.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex using flat bottom restraints and a well radius of 5 Å.
+- [`flatbottom_15.yaml`]( flatbottom_15.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex using flat bottom restraints and a well radius of 15 Å.
+- [`flatbottom_20.yaml`]( flatbottom_20.yaml): yaml file to compute the binding affinity of  α-cyclodextrin-cyclopentanol using flat bottom restraints and a well radius of 20 Å.
+- [`flatbottom_35.yaml`]( flatbottom_35.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex using flat bottom restraints and a well radius of 35 Å.
+- [`null.yaml`](null.yaml): yaml file to compute the binding affinity of α-cyclodextrin-cyclopentanol complex without applying a restraint to the ligand.
+- [`input`](input): subdirectory containing the mol2 files of α-cyclodextrin and cyclopentanol.
