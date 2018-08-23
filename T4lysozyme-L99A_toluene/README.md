@@ -7,4 +7,5 @@ Here you will find the yaml files used to compute the binding affinity of T4 lys
 - [`harmonic.yaml`](harmonic.yaml): yaml file to compute the binding affinity of T4 lysozyme L99A-toluene complex using harmonic restraints.
 - [`boresch.yaml`](boresch.yaml): yaml file to compute the binding affinity of T4 lysozyme L99A-toluene complex using Boresch style restraints.
 - [`fb-10.yaml`]( fb-10.yaml): yaml file to compute the binding affinity of T4 lysozyme L99A-toluene complex using flat bottom restraints and a well radius of 10 Å.
+- [`null.yaml`](null.yaml): yaml file to compute the binding affinity of T4 lysozyme L99A-toluene complex without applying a restraint to the ligand.
 - [`input`](input): subdirectory containing the pdb file of T4 lysozyme L99A and the mol2 file of toluene.
