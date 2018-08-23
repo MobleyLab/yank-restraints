@@ -1,6 +1,6 @@
 # Restraints evaluation using  T4 lysozyme L99A-toluene complex
 
-Here you will find the yaml files used to compute the binding affinity of T4 lysozyme L99A-toluene complex using several types of restraints.
+Here you will find the yaml and the input files used to compute the binding affinity of T4 lysozyme L99A-toluene complex using several types of restraints.
 
 ## Manifest
 
