@@ -1,0 +1,110 @@
+options:
+  resume_setup: yes
+  resume_simulation: yes
+  setup_dir: setup
+  experiments_dir: experiments
+  verbose: yes
+  minimize: yes 
+  default_number_of_iterations: 500 
+  temperature: 300*kelvin
+  pressure: 1*atmosphere
+  output_dir: auto-restraints-output
+
+molecules:
+  symmetric_cyclodextrin:
+    filepath: input/host-acd-2.mol2
+    antechamber:
+      charge_method: bcc
+  s-guest-4:
+    filepath: input/s-guest-4.mol2
+    antechamber:
+      charge_method: bcc
+  asymmetric_cyclodextrin:
+     filepath: input/MGLab-8.mol2
+     antechamber:
+       charge_method: bcc
+  a-guest-4:
+     filepath: input/a-guest-4.mol2
+     antechamber:
+       charge_method: bcc
+
+common_PME: &common_PME
+  nonbonded_method: PME
+  clearance: 12*angstroms
+  nonbonded_cutoff: 11*angstroms
+  switch_distance: 10*angstroms
+  ewald_error_tolerance: 1.0e-4
+  positive_ion: Na+
+  negative_ion: Cl-
+  ionic_strength: 50*millimolar
+
+solvents:
+  pme:
+    <<: *common_PME
+    solvent_model: tip3p
+    leap:
+      parameters: [leaprc.protein.ff14SB, leaprc.water.tip3p]
+
+systems:
+  explicit_1:  
+    receptor: symmetric_cyclodextrin 
+    ligand: s-guest-4 
+    solvent: pme
+    leap:
+      parameters: [leaprc.protein.ff14SB, leaprc.gaff2, leaprc.water.tip3p]
+  explicit_2:
+    receptor: asymmetric_cyclodextrin
+    ligand: a-guest-4
+    solvent: pme
+    leap:
+      parameters: [leaprc.protein.ff14SB, leaprc.gaff2, leaprc.water.tip3p]
+
+protocols:
+  absolute-binding:
+    complex:
+      alchemical_path: auto
+    solvent:
+      alchemical_path: auto
+
+common_experiment: &common_experiment
+  system: !Combinatorial [explicit_1, explicit_2]
+  protocol: absolute-binding
+
+experiment-Boresch:
+  <<: *common_experiment
+  restraint:
+    type: Boresch
+
+experiment-harmonic:
+  <<: *common_experiment
+  restraint:
+    type: Harmonic
+
+experiment-flatbottom05:
+  <<: *common_experiment
+  restraint:
+    type: FlatBottom
+    well_radius: 0.5 * nanometers
+
+experiment-flatbottom15:
+  system: explicit_1
+  protocol: absolute-binding
+  restraint:
+    type: FlatBottom
+    well_radius: 1.5 * nanometers
+
+experiment-flatbottom20:
+  system: explicit_1
+  protocol: absolute-binding
+  restraint:
+    type: FlatBottom
+    well_radius: 2.0 * nanometers
+
+experiment-flatbottom35:
+  system: explicit_1
+  protocol: absolute-binding
+  restraint:
+    type: FlatBottom
+    well_radius: 3.5 * nanometers                
+
+experiments: [experiment-Boresch, experiment-harmonic, experiment-flatbottom05, experiment-flatbottom15, experiment-flatbottom20, experiment-flatbottom35]
