@@ -8,7 +8,7 @@ options:
   default_number_of_iterations: 500 
   temperature: 300*kelvin
   pressure: 1*atmosphere
-  output_dir: no-restraints-output
+  output_dir: output
 
 molecules:
   symmetric_cyclodextrin:
@@ -59,20 +59,39 @@ systems:
     leap:
       parameters: [leaprc.protein.ff14SB, leaprc.gaff2, leaprc.water.tip3p]
 
+solvent_protocol: &solvent_protocol
+  lambda_electrostatics: [1.00, 0.90, 0.78, 0.64, 0.51, 0.35, 0.20, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
+  lambda_sterics:        [1.00, 1.00, 1.00, 1.00, 1.00, 0.95, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.00]
+
 protocols:
-  absolute-binding:
+  restraints:
+    complex:
+      alchemical_path:
+        lambda_electrostatics: [1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.90, 0.78, 0.64, 0.51, 0.35, 0.20, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
+        lambda_sterics:        [1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.95, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.00]
+        lambda_restraints:     [0.00, 0.025, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.75, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00]
+    solvent:
+      alchemical_path:
+        <<: *solvent_protocol
+         
+  no-restraints:
     complex:
       alchemical_path:
         lambda_electrostatics: [1.00, 0.90, 0.78, 0.64, 0.51, 0.35, 0.20, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
         lambda_sterics:        [1.00, 1.00, 1.00, 1.00, 1.00, 0.95, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.00]
     solvent:
       alchemical_path:
-        lambda_electrostatics: [1.00, 0.90, 0.78, 0.64, 0.51, 0.35, 0.20, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
-        lambda_sterics:        [1.00, 1.00, 1.00, 1.00, 1.00, 0.95, 0.90, 0.80, 0.70, 0.60, 0.50, 0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10, 0.05, 0.00]
+        <<: *solvent_protocol
+  
+  auto:
+    complex:
+      alchemical_path: auto
+    solvent:
+      alchemical_path: auto                                                                 
 
 common_experiment: &common_experiment
   system: !Combinatorial [explicit_1, explicit_2]
-  protocol: absolute-binding
+  protocol: !Combinatorial [restraints, auto]
 
 experiment-Boresch:
   <<: *common_experiment
@@ -90,25 +109,15 @@ experiment-flatbottom05:
     type: FlatBottom
     well_radius: 0.5 * nanometers
 
-experiment-flatbottom15:
+experiment-flatbottom:
+  protocol: !Combinatorial [restraints, auto]
   system: explicit_1
-  protocol: absolute-binding
   restraint:
     type: FlatBottom
-    well_radius: 1.5 * nanometers
+    well_radius: !Combinatorial [1.5 * nanometers, 2.0 * nanometers, 3.5 * nanometers]
 
-experiment-flatbottom20:
-  system: explicit_1
-  protocol: absolute-binding
-  restraint:
-    type: FlatBottom
-    well_radius: 2.0 * nanometers
-
-experiment-flatbottom35:
-  system: explicit_1
-  protocol: absolute-binding
-  restraint:
-    type: FlatBottom
-    well_radius: 3.5 * nanometers                
-
-experiments: [experiment-Boresch, experiment-harmonic, experiment-flatbottom05, experiment-flatbottom15, experiment-flatbottom20, experiment-flatbottom35]
+experiment-norestraint:
+  protocol: !Combinatorial [no-restraints, auto]
+  system: !Combinatorial [explicit_1, explicit_2]
+     
+experiments: [experiment-Boresch, experiment-harmonic, experiment-flatbottom05, experiment-flatbottom, experiment-norestraint]
