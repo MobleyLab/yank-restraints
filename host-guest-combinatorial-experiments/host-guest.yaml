@@ -9,24 +9,27 @@ options:
   temperature: 300*kelvin
   pressure: 1*atmosphere
   output_dir: output
+  processes_per_experiment: 30
 
 molecules:
   symmetric_cyclodextrin:
     filepath: input/host-acd-2.mol2
     antechamber:
-      charge_method: bcc
+      charge_method: null # use existing charges
   s-guest-4:
     filepath: input/s-guest-4.mol2
     antechamber:
-      charge_method: bcc
+      #charge_method: bcc
+      charge_method: null
   asymmetric_cyclodextrin:
-     filepath: input/MGLab-8.mol2
-     antechamber:
-       charge_method: bcc
+    filepath: input/MGLab-8.mol2
+    antechamber:
+      charge_method: null # use existing charges
   a-guest-4:
-     filepath: input/a-guest-4.mol2
-     antechamber:
-       charge_method: bcc
+    filepath: input/a-guest-4.mol2       
+    antechamber:
+      #charge_method: bcc
+      charge_method: null
 
 common_PME: &common_PME
   nonbonded_method: PME
