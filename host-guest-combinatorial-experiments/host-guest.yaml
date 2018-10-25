@@ -5,11 +5,12 @@ options:
   experiments_dir: experiments
   verbose: yes
   minimize: yes 
-  default_number_of_iterations: 500 
+  default_number_of_iterations: 5000
+  number_of_equilibration_iterations: 100
   temperature: 300*kelvin
   pressure: 1*atmosphere
   output_dir: output
-  processes_per_experiment: 30
+  processes_per_experiment: 1
 
 molecules:
   symmetric_cyclodextrin:
