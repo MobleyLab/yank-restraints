@@ -5,7 +5,7 @@
 #PBS -A chm126
 #
 # Set job name
-#PBS -N repex-fixed
+#PBS -N repex-auto
 #
 # Capture output and error
 #PBS -j oe
@@ -13,10 +13,10 @@
 # Production limit is six hours, but jobs can be chained
 ##PBS -l walltime=12:00:00,nodes=1300
 ##PBS -q killable
-##PBS -l walltime=06:00:00,nodes=660
-#$PBS -q killable
-#PBS -l walltime=00:30:00,nodes=60
-#PBS -q debug
+#PBS -l walltime=12:00:00,nodes=350
+#PBS -q killable
+##PBS -l walltime=00:30:00,nodes=60
+##PBS -q debug
 #
 # Use atlas scratch storage
 #PBS -l gres=atlas1%atlas2
@@ -61,4 +61,4 @@ ls -ltr $OE_LICENSE
 cat $OE_LICENSE
 
 # Run YANK, one MPI process per node
-aprun -n $PBS_NUM_NODES -N 1 -d 16 yank script --yaml=repex-fixed.yaml
+aprun -n $PBS_NUM_NODES -N 1 -d 16 yank script --yaml=repex-auto.yaml
